@@ -4,8 +4,7 @@
 
 线上地址：
 
-- Production: https://frontend-mlvpfxe34-qijiayi950217-5219s-projects.vercel.app
-- Alias: https://frontend-qijiayi950217-5219s-projects.vercel.app
+- https://frontend-ashen-seven-1suizrxn8k.vercel.app
 
 ## 功能
 
