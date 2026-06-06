@@ -4,7 +4,7 @@
 
 线上地址：
 
-- https://frontend-ashen-seven-1suizrxn8k.vercel.app
+- https://qijiayi-space.vercel.app
 
 ## 功能
 
