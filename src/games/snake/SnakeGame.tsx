@@ -28,15 +28,23 @@ export function SnakeGame() {
         />
         <div className="game-status">
           <strong>{statusText}</strong>
-          <span>方向键 / WASD / 空格</span>
+          <span>
+            {game.gameState === 'won'
+              ? '自动通关完成'
+              : game.isAutoMode
+                ? 'AI 正在实时决策'
+                : '方向键 / WASD / 空格'}
+          </span>
         </div>
       </div>
 
       <SnakeControls
         chooseDirection={game.chooseDirection}
         gameState={game.gameState}
+        isAutoMode={game.isAutoMode}
         resetGame={game.resetGame}
         startGame={game.startGame}
+        toggleAutoMode={game.toggleAutoMode}
         togglePause={game.togglePause}
       />
     </section>

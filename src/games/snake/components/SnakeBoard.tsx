@@ -2,7 +2,7 @@ import type { Cell } from '../types/snake'
 
 type SnakeBoardProps = {
   boardSize: number
-  food: Cell
+  food: Cell | null
   snake: Cell[]
   snakeCells: Set<string>
   statusText: string
@@ -20,7 +20,7 @@ export function SnakeBoard({ boardSize, food, snake, snakeCells, statusText }: S
         const y = Math.floor(index / boardSize)
         const isHead = sameCell(snake[0], { x, y })
         const isSnake = snakeCells.has(`${x}:${y}`)
-        const isFood = sameCell(food, { x, y })
+        const isFood = food ? sameCell(food, { x, y }) : false
 
         return (
           <span

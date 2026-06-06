@@ -522,6 +522,59 @@
   gap: 0.55rem;
 }
 
+.auto-mode-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid rgba(247, 243, 234, 0.12);
+  border-radius: 8px;
+  background: rgba(247, 243, 234, 0.06);
+}
+
+.auto-mode-row > div {
+  display: grid;
+  gap: 0.18rem;
+}
+
+.auto-mode-row strong {
+  color: #f7f3ea;
+}
+
+.auto-mode-row span {
+  color: rgba(247, 243, 234, 0.58);
+  font-size: 0.78rem;
+}
+
+.mode-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex: 0 0 auto;
+  min-height: 2.7rem;
+  padding: 0.45rem 0.75rem;
+  color: #111915;
+  background: #f7f3ea;
+  font-weight: 900;
+}
+
+.mode-toggle > span {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+  background: #7a8580;
+}
+
+.mode-toggle.active {
+  background: #e7d46b;
+}
+
+.mode-toggle.active > span {
+  background: #258e80;
+  box-shadow: 0 0 12px rgba(69, 182, 167, 0.72);
+}
+
 .game-controls button {
   min-height: 2.85rem;
   color: #111915;
@@ -531,6 +584,15 @@
 
 .game-controls button:hover {
   background: #e7d46b;
+}
+
+.game-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.28;
+}
+
+.game-controls button:disabled:hover {
+  background: #f7f3ea;
 }
 
 .game-controls .ghost-button {
@@ -582,6 +644,15 @@
 
   .game-controls {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .auto-mode-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .mode-toggle {
+    justify-content: center;
   }
 }
 

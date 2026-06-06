@@ -6,7 +6,7 @@ export function SnakePage() {
       <section className="page-heading">
         <p className="eyebrow">小游戏</p>
         <h1>霓虹贪吃蛇</h1>
-        <p>方向键或 WASD 控制，空格暂停。移动端可以使用棋盘下方的方向按钮。</p>
+        <p>手动挑战，或开启自动模式，看 AI 每一步实时评估路径和生存空间。</p>
       </section>
       <SnakeGame />
     </div>

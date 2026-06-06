@@ -5,4 +5,5 @@ export const statusTextByState: Record<GameState, string> = {
   running: '前进中',
   paused: '已暂停',
   ended: '游戏结束',
+  won: '棋盘已填满',
 }

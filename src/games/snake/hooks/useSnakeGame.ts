@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { readNumberFromStorage, writeNumberToStorage } from '../../../utils/storage'
+import { chooseAutoDirection } from '../snakeAi'
 import type { Cell, Direction, GameState } from '../types/snake'
 
 const BEST_SCORE_KEY = 'qijiayi-space.snake.best-score'
 const BOARD_SIZE = 18
+const AUTO_TICK_MS = 8
 const START_SNAKE: Cell[] = [
   { x: 8, y: 9 },
   { x: 7, y: 9 },
@@ -44,10 +46,11 @@ function makeFood(snake: Cell[]): Cell {
 
 export function useSnakeGame() {
   const [snake, setSnake] = useState<Cell[]>(START_SNAKE)
-  const [food, setFood] = useState<Cell>(START_FOOD)
+  const [food, setFood] = useState<Cell | null>(START_FOOD)
   const [direction, setDirection] = useState<Direction>('right')
   const [nextDirection, setNextDirection] = useState<Direction>('right')
   const [gameState, setGameState] = useState<GameState>('ready')
+  const [isAutoMode, setIsAutoMode] = useState(false)
   const [score, setScore] = useState(0)
   const [bestScore, setBestScore] = useState(() => readNumberFromStorage(BEST_SCORE_KEY, 0))
 
@@ -70,11 +73,24 @@ export function useSnakeGame() {
 
   const startGame = useCallback(() => {
     setSnake(START_SNAKE)
-    setFood(START_FOOD)
+    setFood(makeFood(START_SNAKE))
     setDirection('right')
     setNextDirection('right')
     setScore(0)
     setGameState('running')
+  }, [])
+
+  const toggleAutoMode = useCallback(() => {
+    setIsAutoMode((current) => {
+      const nextAutoMode = !current
+      setSnake(START_SNAKE)
+      setFood(makeFood(START_SNAKE))
+      setDirection('right')
+      setNextDirection('right')
+      setScore(0)
+      setGameState(nextAutoMode ? 'running' : 'ready')
+      return nextAutoMode
+    })
   }, [])
 
   const togglePause = useCallback(() => {
@@ -86,11 +102,13 @@ export function useSnakeGame() {
   }, [])
 
   const chooseDirection = useCallback((newDirection: Direction) => {
+    if (isAutoMode) return
+
     setNextDirection((current) =>
       opposite[current] === newDirection ? current : newDirection,
     )
     setGameState((current) => (current === 'ready' ? 'running' : current))
-  }, [])
+  }, [isAutoMode])
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -130,10 +148,13 @@ export function useSnakeGame() {
 
     const tick = window.setInterval(() => {
       setSnake((currentSnake) => {
-        const confirmedDirection =
-          opposite[direction] === nextDirection ? direction : nextDirection
-        const move = directions[confirmedDirection]
         const head = currentSnake[0]
+        const confirmedDirection = isAutoMode
+          ? chooseAutoDirection(currentSnake, food, BOARD_SIZE)
+          : opposite[direction] === nextDirection
+            ? direction
+            : nextDirection
+        const move = directions[confirmedDirection]
         const nextHead = {
           x: head.x + move.x,
           y: head.y + move.y,
@@ -150,7 +171,7 @@ export function useSnakeGame() {
           return currentSnake
         }
 
-        const eatsFood = sameCell(nextHead, food)
+        const eatsFood = food ? sameCell(nextHead, food) : false
         const nextSnake = [nextHead, ...currentSnake]
 
         if (!eatsFood) nextSnake.pop()
@@ -168,15 +189,21 @@ export function useSnakeGame() {
           const nextScore = score + 1
           setScore(nextScore)
           updateBestScore(nextScore)
-          setFood(makeFood(nextSnake))
+
+          if (nextSnake.length === BOARD_SIZE * BOARD_SIZE) {
+            setFood(null)
+            setGameState('won')
+          } else {
+            setFood(makeFood(nextSnake))
+          }
         }
 
         return nextSnake
       })
-    }, Math.max(74, 160 - score * 6))
+    }, isAutoMode ? AUTO_TICK_MS : Math.max(74, 160 - score * 6))
 
     return () => window.clearInterval(tick)
-  }, [direction, food, gameState, nextDirection, score, updateBestScore])
+  }, [direction, food, gameState, isAutoMode, nextDirection, score, updateBestScore])
 
   const snakeCells = useMemo(
     () => new Set(snake.map((cell) => `${cell.x}:${cell.y}`)),
@@ -189,11 +216,13 @@ export function useSnakeGame() {
     chooseDirection,
     food,
     gameState,
+    isAutoMode,
     resetGame,
     score,
     snake,
     snakeCells,
     startGame,
+    toggleAutoMode,
     togglePause,
   }
 }
