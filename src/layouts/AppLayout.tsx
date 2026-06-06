@@ -6,8 +6,8 @@ export function AppLayout() {
     <main className="site-shell min-h-screen overflow-hidden text-[#17211d]">
       <header className="site-header">
         <NavLink className="brand" to="/">
-          <span className="brand-mark">Q</span>
-          <span>齐佳一的项目启动台</span>
+          <span className="brand-mark">J</span>
+          <span>Jiayi 的项目启动台</span>
         </NavLink>
 
         <nav aria-label="主导航" className="tab-list">
