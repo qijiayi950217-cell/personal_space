@@ -5,16 +5,20 @@ This repository is a lightweight personal website built with React, TypeScript, 
 ## Working Guidelines
 
 - Keep the website Chinese-first. User-facing copy should be in Simplified Chinese unless there is a clear reason to use English.
-- Preserve the current structure: the header and tab navigation stay persistent, while each tab renders a full page below it.
-- Keep implementation lightweight. Prefer React state and plain CSS before introducing new dependencies.
+- Preserve the current structure: `AppLayout` owns the persistent header, and pages render through React Router.
+- Keep navigation centralized in `src/config/routes.ts`.
+- Keep implementation lightweight. Prefer local state, custom hooks, Tailwind utilities, and the existing plain CSS visual system before introducing more dependencies.
 - Do not commit generated folders or local deployment state: `node_modules`, `dist`, and `.vercel` must stay ignored.
 - Before finishing frontend changes, run `npm run build`.
 - If layout changes are visual, verify in the browser when possible.
 
 ## Project Notes
 
-- Main app logic lives in `src/App.tsx`.
-- Page and game styling lives in `src/App.css`.
+- Main routing lives in `src/App.tsx`.
+- Route and navigation config lives in `src/config/routes.ts`.
+- Page components live in `src/pages`.
+- Snake logic lives in `src/games/snake/hooks/useSnakeGame.ts`.
+- Page and game styling lives in `src/App.css` plus Tailwind imported from `src/index.css`.
 - Global CSS reset and base typography live in `src/index.css`.
 - Vercel settings live in `vercel.json`.
 

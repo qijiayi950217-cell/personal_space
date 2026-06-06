@@ -1,6 +1,6 @@
 # 齐佳一的空间
 
-一个用 React + Vite 写的个人网站雏形。当前版本包含中文首页、页面级 tab 切换，以及一个放在“玩具”页里的霓虹风贪吃蛇小游戏。
+一个用 React + Vite 写的个人项目启动台。当前版本包含中文首页、路由驱动的 tab 导航，以及一个独立页面里的霓虹风贪吃蛇小游戏。
 
 线上地址：
 
@@ -9,8 +9,8 @@
 
 ## 功能
 
-- `首页`：个人站入口和当前建设方向。
-- `玩具`：小应用展示区，第一版包含贪吃蛇。
+- `首页`：项目启动台和项目卡片入口。
+- `贪吃蛇`：小应用展示区，第一版包含可玩的 Snake。
 - `笔记`：预留给部署记录、开发日志和想法整理。
 
 ## 技术栈
@@ -18,8 +18,23 @@
 - React 19
 - TypeScript
 - Vite
-- CSS Modules-free plain CSS
+- React Router
+- Tailwind CSS
+- Plain CSS for the custom visual system and game board
 - Vercel 部署
+
+## 项目结构
+
+```text
+src/
+  components/       # 通用组件预留
+  config/           # 路由和导航配置
+  games/snake/      # 贪吃蛇页面逻辑、组件和类型
+  hooks/            # 通用 hook 预留
+  layouts/          # App layout 和导航
+  pages/            # 独立页面
+  utils/            # localStorage 等工具函数
+```
 
 ## 本地开发
 
